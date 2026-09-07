@@ -1,1 +1,198 @@
+# ============================================================
+# Libraryworm FullAD - Clash Verge Rev / Mihomo
+# 从 fullAD.ini 迁移
+# 不依赖 SubConverter
+# ============================================================
 
+rule-providers:
+
+  # -------------------------
+  # 广告拦截
+  # -------------------------
+
+  BanAD:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanAD.list"
+    path: ./ruleset/ACL4SSR_BanAD.list
+    interval: 86400
+
+  BanProgramAD:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanProgramAD.list"
+    path: ./ruleset/ACL4SSR_BanProgramAD.list
+    interval: 86400
+
+  BanEasyList:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanEasyList.list"
+    path: ./ruleset/ACL4SSR_BanEasyList.list
+    interval: 86400
+
+  BanEasyListChina:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanEasyListChina.list"
+    path: ./ruleset/ACL4SSR_BanEasyListChina.list
+    interval: 86400
+
+
+  # -------------------------
+  # 国内直连
+  # -------------------------
+
+  ChinaDomain:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list"
+    path: ./ruleset/ACL4SSR_ChinaDomain.list
+    interval: 86400
+
+  ChinaCompanyIp:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaCompanyIp.list"
+    path: ./ruleset/ACL4SSR_ChinaCompanyIp.list
+    interval: 86400
+
+  Download:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Download.list"
+    path: ./ruleset/ACL4SSR_Download.list
+    interval: 86400
+
+  China:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China.list"
+    path: ./ruleset/blackmatrix7_China.list
+    interval: 86400
+
+
+  # -------------------------
+  # Telegram
+  # -------------------------
+
+  Telegram:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.list"
+    path: ./ruleset/blackmatrix7_Telegram.list
+    interval: 86400
+
+
+  # -------------------------
+  # Netflix
+  # -------------------------
+
+  Netflix:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.list"
+    path: ./ruleset/blackmatrix7_Netflix.list
+    interval: 86400
+
+
+  # -------------------------
+  # YouTube
+  # -------------------------
+
+  YouTube:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.list"
+    path: ./ruleset/blackmatrix7_YouTube.list
+    interval: 86400
+
+
+  # -------------------------
+  # AI
+  # 原 fullAD.ini 有 AI 策略组但缺 AI 分流
+  # 这里补上
+  # -------------------------
+
+  OpenAI:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.list"
+    path: ./ruleset/blackmatrix7_OpenAI.list
+    interval: 86400
+
+  Claude:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.list"
+    path: ./ruleset/blackmatrix7_Claude.list
+    interval: 86400
+
+  Gemini:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.list"
+    path: ./ruleset/blackmatrix7_Gemini.list
+    interval: 86400
+
+
+  # -------------------------
+  # 常规代理
+  # -------------------------
+
+  ProxyLite:
+    type: http
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyLite.list"
+    path: ./ruleset/ACL4SSR_ProxyLite.list
+    interval: 86400
+
+
+# ============================================================
+# 规则
+# 顺序非常重要
+# ============================================================
+
+prepend-rules:
+
+  # 广告
+  - RULE-SET,BanAD,REJECT
+  - RULE-SET,BanProgramAD,REJECT
+  - RULE-SET,BanEasyList,REJECT
+  - RULE-SET,BanEasyListChina,REJECT
+
+  # AI
+  - RULE-SET,OpenAI,🤖 AI服务
+  - RULE-SET,Claude,🤖 AI服务
+  - RULE-SET,Gemini,🤖 AI服务
+
+  # Telegram
+  - RULE-SET,Telegram,📲 Telegram
+
+  # 流媒体
+  - RULE-SET,Netflix,🎥 Netflix
+  - RULE-SET,YouTube,📺 YouTube
+
+  # 中国大陆
+  - RULE-SET,ChinaDomain,DIRECT
+  - RULE-SET,ChinaCompanyIp,DIRECT
+  - RULE-SET,Download,DIRECT
+  - RULE-SET,China,DIRECT
+
+  # 其余需要代理的网站
+  - RULE-SET,ProxyLite,🚀 节点选择
